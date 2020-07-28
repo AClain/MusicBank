@@ -1,0 +1,72 @@
+.album-infos-container {
+  margin-left: 50px;
+}
+
+.artist-link {
+  position: relative;
+  width: max-content;
+  color: #f6f6f6;
+  font-size: 24px;
+}
+
+.artist-link::after {
+  position: absolute;
+  content: "▸";
+  top: 0;
+  right: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.artist-link:hover {
+  color: #f50057;
+}
+
+.artist-link:hover::after {
+  opacity: 1;
+  right: -20px;
+  color: #f6f6f6;
+}
+
+.album-genres {
+  color: #f6f6f6;
+  font-size: 24px;
+  margin: 0px;
+}
+
+.album-genre {
+  color: #f6f6f6;
+  font-size: 16px;
+  padding-left: 15px;
+}
+
+.album-tracks {
+  color: #f6f6f6;
+  font-size: 24px;
+  margin: 0px;
+}
+
+.album-track {
+  color: #f6f6f6;
+  font-size: 16px;
+  padding-left: 15px;
+}
+
+.album-cover {
+  max-height: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+.album-description {
+  padding: 0px 20px;
+  color: #f6f6f6;
+  font-size: 18px;
+  text-indent: 40px;
+  text-align: justify;
+  word-spacing: 1.5px;
+}
+
+.first-letter {
+  font-size: 35px;
+}

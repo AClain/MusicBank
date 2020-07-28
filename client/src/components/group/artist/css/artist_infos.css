@@ -1,0 +1,92 @@
+.artist-infos-container {
+  margin-left: 50px;
+}
+
+.no-album {
+  padding-left: 15px;
+  color: #f6f6f6;
+}
+
+.track-name {
+  margin: 0px;
+}
+
+.artist-album-link {
+  position: relative;
+  text-decoration: none;
+  width: max-content;
+  display: block;
+}
+
+.artist-album-link::after {
+  position: absolute;
+  content: "";
+  bottom: -3px;
+  left: 0;
+  height: 2px;
+  width: 20%;
+  background-color: #ff2244;
+  transition: 0.3s;
+}
+
+.artist-album-link:hover::after {
+  width: 100%;
+}
+
+.artist-album-link-text {
+  position: relative;
+  width: max-content;
+  color: #f6f6f6;
+  font-size: 16px;
+}
+
+.artist-album-link-text::after {
+  position: absolute;
+  content: "▸";
+  top: 0;
+  right: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.artist-album-link-text:hover {
+  color: #f50057;
+}
+
+.artist-album-link-text:hover::after {
+  opacity: 1;
+  right: -20px;
+  color: #f6f6f6;
+}
+
+.artist-albums {
+  color: #f6f6f6;
+  font-size: 24px;
+  margin: 0px;
+}
+
+.artist-photo {
+  max-height: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+.artist-description {
+  padding: 0px 20px;
+  color: #f6f6f6;
+  font-size: 18px;
+  word-spacing: 1.5px;
+}
+
+.artist-bio {
+  padding: 0px 20px;
+  color: #f6f6f6;
+  font-size: 18px;
+  text-indent: 40px;
+  text-align: justify;
+  word-spacing: 1.5px;
+}
+
+.first-letter {
+  font-size: 35px;
+}

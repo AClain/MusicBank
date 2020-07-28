@@ -1,0 +1,38 @@
+.album-card-link {
+  text-decoration: none;
+}
+
+.album-name {
+  color: #f6f6f6;
+  font-size: 24px;
+  font-family: "RobotoBold";
+  font-weight: 700;
+  margin: 0px;
+}
+
+.album-artist {
+  margin-top: 0px;
+  color: #f6f6f6;
+  font-size: 16px;
+  font-family: "RobotoThin";
+  font-weight: 200;
+}
+
+.album-genre-title {
+  font-size: 18px;
+  font-family: "RobotoMedium";
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.album-genre-title::after {
+  content: " : ";
+}
+
+.album-genres {
+  color: #f6f6f6;
+}
+
+.album-genre:last-of-type::after {
+  content: "";
+}

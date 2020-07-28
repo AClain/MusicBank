@@ -1,0 +1,41 @@
+#header {
+  background-color: #222831;
+  padding: 25px 0px;
+}
+
+.header-link {
+  text-decoration: none;
+  color: #f6f6f6;
+  font-family: "RobotoBlack";
+  font-weight: 900;
+  font-size: 32px;
+  transition: 0.3s;
+  position: relative;
+}
+
+.header-link::after {
+  position: absolute;
+  content: "";
+  height: 3px;
+  width: 0px;
+  bottom: 0;
+  left: 0;
+  transition: 0.3s;
+  background-color: #f6f6f6;
+}
+
+.header-link:hover {
+  color: #f50057;
+}
+
+.header-link:hover::after {
+  width: 100%;
+}
+
+.header-link.active {
+  color: #f50057;
+}
+
+.header-link.active::after {
+  width: 100%;
+}
