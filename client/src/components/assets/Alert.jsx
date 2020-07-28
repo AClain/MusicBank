@@ -5,9 +5,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import './css/alert.css';
 
 export default function Alert(props) {
-    const close = (e) => {
-        props.clickAction('');
-    }
 
     return (
         <div className='alert-container fadeInTop'>
@@ -18,7 +15,7 @@ export default function Alert(props) {
                 <div className='alert-close'>
                     <CancelIcon
                         className='alert-close-icon'
-                        onClick={e => close(e)}
+                        onClick={e => props.clickAction('')}
                         fontSize='large'
                         htmlColor='#222831' />
                 </div>

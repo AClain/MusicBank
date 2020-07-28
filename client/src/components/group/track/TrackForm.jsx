@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
+import Refresh from '../../assets/Refresh';
 import Alert from '../../assets/Alert';
 import Back from '../../assets/ArrowBack';
 
@@ -16,6 +17,7 @@ export default function AlbumForm(props) {
         track_no: ''
     });
 
+    const [error, setError] = useState('');
     const [errors, setErrors] = useState([]);
     const [success, setSuccess] = useState("");
 
@@ -38,7 +40,6 @@ export default function AlbumForm(props) {
             name: track['name'],
             track_no: track['track_no']
         };
-        console.log(data);
         fetch(
             url + "track/add",
             {
@@ -48,7 +49,6 @@ export default function AlbumForm(props) {
             })
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 if (res.status === "ERROR") {
                     setErrors(res.errors);
                     return false;
@@ -59,6 +59,9 @@ export default function AlbumForm(props) {
 
                 }, 5000)
                 return true;
+            }, (err) => {
+                console.log(err);
+                setError('Error: can\'t connect to the server.');
             });
     }
 
@@ -66,8 +69,14 @@ export default function AlbumForm(props) {
         <Grid container
             justify='center' direction='row'
             alignContent='center'>
+            {error !== '' ? (
+                <Alert type='danger' clickAction={setError}>
+                    {error}
+                    <Refresh />
+                </Alert>
+            ) : null}
             {success !== "" ? (
-                <Alert clickAction={setSuccess} type='success' >
+                <Alert clickAction={setSuccess} type='success'>
                     {success}
                 </Alert>
             ) : null

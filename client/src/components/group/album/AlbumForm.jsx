@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
+import Refresh from '../../assets/Refresh';
 import Alert from '../../assets/Alert';
 import Back from '../../assets/ArrowBack';
 
@@ -21,6 +22,7 @@ export default function AlbumForm() {
         genre_2: ''
     });
 
+    const [error, setError] = useState('');
     const [errors, setErrors] = useState([]);
     const [success, setSuccess] = useState("");
 
@@ -103,6 +105,9 @@ export default function AlbumForm() {
                     setSuccess('');
                 }, 4500)
                 return true;
+            }, (err) => {
+                console.log(err);
+                setError('Error: can\'t connect to the server.');
             });
     }
 
@@ -110,6 +115,12 @@ export default function AlbumForm() {
         <Grid container
             justify='center' direction='row'
             alignContent='center'>
+            {error !== '' ? (
+                <Alert type='danger' clickAction={setError}>
+                    {error}
+                    <Refresh />
+                </Alert>
+            ) : null}
             {success !== "" ? (
                 <Alert clickAction={setSuccess} type='success' >
                     {success}

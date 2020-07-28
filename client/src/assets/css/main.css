@@ -26,6 +26,14 @@ body {
   font-size: 26px;
 }
 
+.not-found {
+  text-align: center;
+  color: #f6f6f6;
+  font-family: "RobotoThin";
+  font-weight: 300;
+  font-size: 26px;
+}
+/* 
 .link {
   position: relative;
   text-decoration: none;
@@ -46,7 +54,7 @@ body {
 
 .link:hover::after {
   width: 100%;
-}
+} */
 
 .card-hover img {
   transition: 0.3s;

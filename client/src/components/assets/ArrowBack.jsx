@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Back(props) {
+export default function Back() {
     const classes = useStyles();
     const history = useHistory();
 

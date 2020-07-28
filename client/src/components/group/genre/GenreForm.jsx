@@ -4,11 +4,13 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
+import Refresh from '../../assets/Refresh';
 import Alert from '../../assets/Alert';
 import Back from '../../assets/ArrowBack';
 
 export default function GenreForm() {
     const [name, setName] = useState('');
+    const [error, setError] = useState('');
     const [errors, setErrors] = useState([]);
     const [success, setSuccess] = useState("");
 
@@ -46,6 +48,9 @@ export default function GenreForm() {
                     setSuccess('');
                 }, 4500)
                 return true;
+            }, (err) => {
+                console.log(err);
+                setError('Error: can\'t connect to the server.');
             });
     }
 
@@ -53,6 +58,12 @@ export default function GenreForm() {
         <Grid container
             justify='center'
             alignContent='center'>
+            {error !== '' ? (
+                <Alert type='danger' clickAction={setError}>
+                    {error}
+                    <Refresh />
+                </Alert>
+            ) : null}
             {success !== "" ? (
                 <Alert clickAction={setSuccess} type='success' >
                     {success}

@@ -2,6 +2,7 @@
   position: absolute;
   width: 100vw;
   height: auto;
+  z-index: 999;
 }
 
 .alert {
@@ -10,7 +11,7 @@
   align-items: center;
   width: 60%;
   margin: 0 auto;
-  padding: 15px 50px;
+  padding: 0px 50px;
   border-radius: 5px;
   font-size: 18 px;
 }
@@ -21,8 +22,8 @@
 }
 
 .alert-danger {
-  background-color: #c4fb6d;
-  color: #4e642a;
+  background-color: #fb6d6d;
+  color: #642a2a;
 }
 
 .alert-close {
