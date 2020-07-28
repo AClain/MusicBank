@@ -18,7 +18,7 @@ class AlbumController extends AbstractController
      * @Route("/album/add", name="album_add")
      * POST / Add an album
      */
-    public function album_add(ValidatorInterface $validator, Request $request)
+    public function albumAdd(ValidatorInterface $validator, Request $request)
     {
         $post = json_decode($request->getContent(), true);
 
@@ -106,7 +106,7 @@ class AlbumController extends AbstractController
      * @Route("/album/{id}", name="album_id")
      * GET / Get an album by id
      */
-    public function album_id($id)
+    public function albumId($id)
     {
         $album = $this->getDoctrine()
             ->getRepository(Album::class)
@@ -128,10 +128,10 @@ class AlbumController extends AbstractController
         $albumArray['cover_small'] = $album->getCoverSmall();
         $albumArray['release_date'] = $album->getReleaseDate();
 
-        $album_genres = $this->get_album_genres($album->getId());
+        $album_genres = $this->getAlbumGenres($album->getId());
         $albumArray['genres'] = $album_genres;
 
-        $album_tracks = $this->get_album_tracks($album->getId());
+        $album_tracks = $this->getAlbumTracks($album->getId());
         $albumArray['tracks'] = $album_tracks;
 
         return $this->json([
@@ -144,7 +144,7 @@ class AlbumController extends AbstractController
      * @Route("/albums", name="album_list")
      * GET / Get all album
      */
-    public function album_list()
+    public function albumList()
     {
         $limit = isset($_GET['limit']) ? $_GET['limit'] : 25;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -164,7 +164,7 @@ class AlbumController extends AbstractController
             $albumsArray[$i]['cover'] = $albums[$i]->getCover();
             $albumsArray[$i]['cover_small'] = $albums[$i]->getCoverSmall();
             $albumsArray[$i]['release_date'] = $albums[$i]->getReleaseDate();
-            $album_genres = $this->get_album_genres($albums[$i]->getId());
+            $album_genres = $this->getAlbumGenres($albums[$i]->getId());
             $albumsArray[$i]['genres'] = $album_genres;
         }
 
@@ -182,7 +182,7 @@ class AlbumController extends AbstractController
         ]);
     }
 
-    private function get_album_genres($id)
+    public function getAlbumGenres($id)
     {
         $em = $this->getDoctrine()->getRepository(Album::class);
         $album = $em->find(['id' => $id]);
@@ -200,7 +200,7 @@ class AlbumController extends AbstractController
         return 'This album has no genre.';
     }
 
-    private function get_album_tracks($id)
+    private function getAlbumTracks($id)
     {
         $em = $this->getDoctrine()->getRepository(Album::class);
         $album = $em->find(['id' => $id]);
@@ -225,7 +225,7 @@ class AlbumController extends AbstractController
      * @Route("/album/{id}/genres", name="album_genres")
      * GET / Get genres from album id
      */
-    public function album_genres($id)
+    public function albumGenres($id)
     {
         $em = $this->getDoctrine()->getRepository(Album::class);
         $album = $em->find(['id' => $id]);

@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Genre;
+use App\Entity\GenreAlbum;
+use App\Repository\AlbumRepository;
+use App\Repository\GenreAlbumRepository;
 use App\Repository\GenreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +18,7 @@ class GenreController extends AbstractController
      * @Route("/genre/add", name="genre_add")
      * POST / Add new genre
      */
-    public function genre_add(ValidatorInterface $validator, Request $request)
+    public function genreAdd(ValidatorInterface $validator, Request $request)
     {
         $post = json_decode($request->getContent(), true);
 
@@ -54,7 +57,7 @@ class GenreController extends AbstractController
      * @Route("/genre/{id}", name="genre_id")
      * GET / Get genre by id
      */
-    public function genre_id($id)
+    public function genreId($id)
     {
         $genre = $this->getDoctrine()
             ->getRepository(Genre::class)
@@ -79,7 +82,7 @@ class GenreController extends AbstractController
      * @Route("/genres", name="genre_list")
      * GET / Get all genre
      */
-    public function genre_list()
+    public function genreList()
     {
         $limit = isset($_GET['limit']) ? $_GET['limit'] : 25;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -108,7 +111,7 @@ class GenreController extends AbstractController
      * @Route("/genre/search/{search}", name="genre_search")
      * GET / Get genre with name containing {search}
      */
-    public function artist_search($search, GenreRepository $genreRepository)
+    public function genreSearch($search, GenreRepository $genreRepository)
     {
         $genres = $genreRepository->findBySearch($search);
 
@@ -122,6 +125,57 @@ class GenreController extends AbstractController
             'status' => 'OK',
             'search' => $search,
             'genres' => $genresArray
+        ]);
+    }
+
+    /**
+     * @Route("/genre/{name}/albums", name="album_by_genre")
+     * GET / Get all albums by genre
+     */
+    public function genreAlbums(
+        $name,
+        AlbumController $albumController,
+        AlbumRepository $albumRepository,
+        GenreRepository $genreRepository,
+        GenreAlbumRepository $genreAlbumRepository,
+        Request $request
+    ) {
+        $query = $request->query;
+
+        $limit = null !== $query->get('limit') ? $query->get('limit') : 25;
+        $page = null !== $query->get('page') ? $query->get('page') : 1;
+        $offset = $page > 1 ? (($page - 1) * $limit) : null;
+
+        $genre = $genreRepository->findOneBy(['name' => $name]);
+
+        $albumsByGenre = $genreAlbumRepository->findBy(['genre' => $genre], null, $limit, $offset);
+
+        $albumsArray = [];
+
+        for ($i = 0; $i < sizeof($albumsByGenre); $i++) {
+            $albumsArray[$i] = [];
+            $albumsArray[$i]['id'] = $albumsByGenre[$i]->getAlbum()->getId();
+            $albumsArray[$i]['name'] = $albumsByGenre[$i]->getAlbum()->getName();
+            $albumsArray[$i]['description'] = $albumsByGenre[$i]->getAlbum()->getDescription();
+            $albumsArray[$i]['artist'] = $albumsByGenre[$i]->getAlbum()->getArtist()->getName();
+            $albumsArray[$i]['cover'] = $albumsByGenre[$i]->getAlbum()->getCover();
+            $albumsArray[$i]['cover_small'] = $albumsByGenre[$i]->getAlbum()->getCoverSmall();
+            $albumsArray[$i]['release_date'] = $albumsByGenre[$i]->getAlbum()->getReleaseDate();
+            $album_genres = $albumController->getAlbumGenres($albumsByGenre[$i]->getAlbum()->getId());
+            $albumsArray[$i]['genres'] = $album_genres;
+        }
+
+        $allAlbum = $albumRepository->findAll();
+
+        $max = ceil(sizeof($allAlbum) / $limit);
+        if ((int)$max === $limit) {
+            $max = $max + 1;
+        }
+
+        return $this->json([
+            'status' => 'OK',
+            'albums' => $albumsArray,
+            'max' => $max
         ]);
     }
 }

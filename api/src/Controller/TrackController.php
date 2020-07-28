@@ -15,7 +15,7 @@ class TrackController extends AbstractController
      * @Route("/track/add", name="track_add")
      * POST / Add a track
      */
-    public function track_add(ValidatorInterface $validator, Request $request)
+    public function trackAdd(ValidatorInterface $validator, Request $request)
     {
         $post = json_decode($request->getContent(), true);
 

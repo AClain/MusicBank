@@ -16,7 +16,7 @@ class ArtistController extends AbstractController
      * @Route("/artist/add", name="artist_add")
      * POST / Add an artist
      */
-    public function artist_add(ValidatorInterface $validator, Request $request)
+    public function artistAdd(ValidatorInterface $validator, Request $request)
     {
         $post = json_decode($request->getContent(), true);
 
@@ -61,7 +61,7 @@ class ArtistController extends AbstractController
      * @Route("/artist/name/{name}", name="artist_name")
      * GET / Get an artist by name
      */
-    public function artist_name($name, AlbumRepository $albumRepository)
+    public function artistName($name, AlbumRepository $albumRepository)
     {
         $artist = $this->getDoctrine()
             ->getRepository(Artist::class)
@@ -104,7 +104,7 @@ class ArtistController extends AbstractController
      * @Route("/artists", name="artist_list")
      * GET / Get all artist
      */
-    public function artist_list()
+    public function artistList()
     {
         $limit = isset($_GET['limit']) ? $_GET['limit'] : 25;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -137,7 +137,7 @@ class ArtistController extends AbstractController
      * @Route("/artist/search/{search}", name="artist_search")
      * GET / Get artist with name containing {search}
      */
-    public function artist_search($search, ArtistRepository $artistRepository)
+    public function artistSearch($search, ArtistRepository $artistRepository)
     {
         $artists = $artistRepository->findBySearch($search);
 
