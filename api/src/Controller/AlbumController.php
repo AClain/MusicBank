@@ -168,7 +168,9 @@ class AlbumController extends AbstractController
             $albumsArray[$i]['genres'] = $album_genres;
         }
 
-        $max = ceil(sizeof($albumsArray) / $limit);
+        $allAlbum = $em->findAll();
+
+        $max = ceil(sizeof($allAlbum) / $limit);
         if ((int)$max === $limit) {
             $max = $max + 1;
         }
