@@ -2,13 +2,41 @@
 
 "MusicBank", actuelement proposé en anglais, est un service permettant de rechercher et ajouter des ressources musicales (artistes, albums, etc.) via une API REST.
 
-## Lancer le service
+
+## Lancer le servive
+
+### Lier la base de données
+
+Renommer le fichier **api/sample.env** en **api/.env** puis modifier la ligne 28 avec un vos identifiants mysql
+```
+DATABASE_URL=mysql://db_user:db_password@127.0.0.1/musicbank
+```
+
+### Ajouter des données pré-éxistantes
+
+```shell
+$ cd api/
+$ mysql -u [User] -p[Password] < starting_db.sql
+$ php bin/console doctrine:database:create
+```
+
+### Initier le service
 ```shell
 $ cd api
 $ composer install
-$ php -s localhost:8000 -t public/
 $ cd ../client
 $ npm install
+```
+
+### Lancer l'api
+```shell
+$ cd api/
+$ php -s localhost:8000 -t public/
+```
+
+### Lancer le client
+```shell
+$ cd client/
 $ npm start
 ```
 
