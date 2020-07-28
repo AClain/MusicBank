@@ -68,7 +68,7 @@ export default function AlbumInfo(props) {
                                             {track.track_no + ' • ' + track.name}
                                         </p>
                                     )}
-                                    <Link to={`/track/add/${album.name}`}>
+                                    <Link to={`/track/add/${album.id}`}>
                                         <Button
                                             id='add-album-button'
                                             variant="contained"

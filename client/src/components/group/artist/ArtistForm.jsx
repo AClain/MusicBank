@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
+import Alert from '../../assets/Alert';
 import Back from '../../assets/ArrowBack';
 import './css/artist_form.css';
 
@@ -71,11 +72,9 @@ export default function ArtistForm() {
             justify='center' direction='row'
             alignContent='center'>
             {success !== "" ? (
-                <span
-                    id='alert-success'
-                    className={'alert-success fadeInTop'}>
+                <Alert clickAction={setSuccess} type='success' >
                     {success}
-                </span>
+                </Alert>
             ) : null
             }
             <Grid item xs={4}>

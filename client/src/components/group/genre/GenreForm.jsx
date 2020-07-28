@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
+import Alert from '../../assets/Alert';
 import Back from '../../assets/ArrowBack';
 
 export default function GenreForm() {
@@ -53,11 +54,9 @@ export default function GenreForm() {
             justify='center'
             alignContent='center'>
             {success !== "" ? (
-                <span
-                    id='alert-success'
-                    className='alert-success fadeInTop'>
+                <Alert clickAction={setSuccess} type='success' >
                     {success}
-                </span>
+                </Alert>
             ) : null}
             <Back to='/genres' />
             <Grid item xs={6} className='form-container'>

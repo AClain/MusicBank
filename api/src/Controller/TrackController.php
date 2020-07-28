@@ -21,7 +21,7 @@ class TrackController extends AbstractController
 
         $album = isset($post['album']) ? $post['album'] : '';
         $em = $this->getDoctrine()->getRepository(Album::class);
-        $album = $em->findOneBy(['name' => $album]);
+        $album = $em->findOneBy(['id' => $album]);
 
         $name = isset($post['name']) ? $post['name'] : '';
         $track_no = isset($post['track_no']) ? intval($post['track_no']) : '';

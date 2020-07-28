@@ -43,7 +43,7 @@ export default function Router() {
                 <Route path='/genres' component={Genres} exact />
                 <Route path='/genre/add' component={GenreForm} exact />
 
-                <Route path='/track/add/:name' component={TrackForm} exact />
+                <Route path='/track/add/:id' component={TrackForm} exact />
             </Switch>
         </ReactRouter>
     );

@@ -4,13 +4,14 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
+import Alert from '../../assets/Alert';
 import Back from '../../assets/ArrowBack';
 
 export default function AlbumForm(props) {
-    const albumName = props.match.params.name;
+    const albumId = props.match.params.id;
 
     const [track, setTrack] = useState({
-        album: albumName,
+        album: albumId,
         name: '',
         track_no: ''
     });
@@ -55,14 +56,8 @@ export default function AlbumForm(props) {
                 setErrors([]);
                 setSuccess(res.message);
                 setTimeout(() => {
-                    if (typeof document.getElementById('alert-success') !== null) {
-                        document.getElementById('alert-success').classList.remove('fadeInTop');
-                        document.getElementById('alert-success').classList.add('fadeOutTop');
-                    }
-                }, 3500)
-                setTimeout(() => {
-                    setSuccess('');
-                }, 4500)
+
+                }, 5000)
                 return true;
             });
     }
@@ -72,12 +67,11 @@ export default function AlbumForm(props) {
             justify='center' direction='row'
             alignContent='center'>
             {success !== "" ? (
-                <span
-                    id='alert-success'
-                    className='alert-success fadeInTop'>
+                <Alert clickAction={setSuccess} type='success' >
                     {success}
-                </span>
-            ) : null}
+                </Alert>
+            ) : null
+            }
             <Grid item xs={4}>
                 <Back />
                 <h1 className='title txt-red'>Add a track</h1>
@@ -118,6 +112,6 @@ export default function AlbumForm(props) {
             </Grid>
 
 
-        </Grid>
+        </Grid >
     )
 }

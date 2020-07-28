@@ -56,17 +56,6 @@ body {
   transform: scale(1.1);
 }
 
-/* Alert */
-
-.alert-success {
-  position: absolute;
-  width: 60%;
-  margin: 0 auto;
-  padding: 15px 50px;
-  background-color: #c4fb6d;
-  color: #4e642a;
-}
-
 /* fade */
 
 .fadeInTop {

@@ -1,0 +1,39 @@
+.alert-container {
+  position: absolute;
+  width: 100vw;
+  height: auto;
+}
+
+.alert {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+  padding: 15px 50px;
+  border-radius: 5px;
+  font-size: 18 px;
+}
+
+.alert-success {
+  background-color: #c4fb6d;
+  color: #4e642a;
+}
+
+.alert-danger {
+  background-color: #c4fb6d;
+  color: #4e642a;
+}
+
+.alert-close {
+  display: inline;
+}
+
+.alert-txt {
+  width: 90%;
+  height: 100%;
+}
+
+.alert-close-icon {
+  cursor: pointer;
+}
