@@ -1,6 +1,6 @@
 # MusicBank
 
-"MusicBank", actuelement proposé en anglais, est un service permettant de rechercher et ajouter des ressources musicales (artistes, albums, etc.).
+"MusicBank", actuelement proposé en anglais, est un service permettant de rechercher et ajouter des ressources musicales (artistes, albums, etc.) via une API REST.
 
 ## Lancer le service
 ```shell
