@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -13,16 +13,16 @@ import AlbumCard from './AlbumCard';
 import './css/albums.css';
 
 export default function Albums(props) {
-    const location = useLocation();
+
     const [albums, setAlbums] = useState([]);
     const [max, setMax] = useState(1);
     const [loading, setLoading] = useState(true);
 
-    let url = window.location.href.replace(location.search, "");
+    let url = window.location.href.replace(props.location.search, "");
 
     const queryString = require('query-string');
 
-    const parsed = queryString.parse(location.search);
+    const parsed = queryString.parse(props.location.search);
 
     const page = parsed.page > 0 ? parsed.page : 1;
     const limit = parsed.limit > 0 ? parsed.limit : 25;
@@ -40,6 +40,7 @@ export default function Albums(props) {
             })
             .then(res => res.json())
             .then((res) => {
+                console.log(res);
                 setAlbums(res.albums);
                 setMax(res.max);
                 setTimeout(() => {
