@@ -30,11 +30,12 @@ export default function Albums(props) {
 
     const page = parsed.page > 0 ? parsed.page : 1;
     const limit = parsed.limit > 0 ? parsed.limit : 25;
+    const genre = parsed.genre !== '' ? parsed.genre : '';
 
     useEffect(() => {
         const url = "http://localhost:8000/";
         fetch(
-            url + "albums?page=" + page + "&limit=" + limit,
+            url + "albums?page=" + page + "&limit=" + limit + "&genre=" + genre,
             {
                 method: 'GET',
                 mode: 'cors',
@@ -70,6 +71,11 @@ export default function Albums(props) {
                         justify='space-evenly'
                         alignItems='center'
                         className='album-container'>
+                        {genre !== '' ? (
+                            <Grid item xs={12} id='genre-name'>
+                                <h1 className='title'>Genre: {genre}</h1>
+                            </Grid>
+                        ) : (null)}
                         {albums.map((album, i) =>
                             <Grid key={i} item xs={2} style={{ margin: '0px 15px' }}>
                                 <AlbumCard album={album} />
@@ -104,6 +110,11 @@ export default function Albums(props) {
                                 <Refresh />
                             </Alert>
                         ) : null}
+                        {genre !== '' ? (
+                            <Grid item xs={12} id='genre-name'>
+                                <h1 className='title'>Genre: {genre}</h1>
+                            </Grid>
+                        ) : (null)}
                         <Grid item xs={12}>
                             <h1 className='title not-found'>Result : 0</h1>
                         </Grid>
