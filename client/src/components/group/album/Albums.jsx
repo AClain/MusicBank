@@ -33,9 +33,18 @@ export default function Albums(props) {
     const genre = parsed.genre !== '' ? parsed.genre : '';
 
     useEffect(() => {
-        const url = "http://localhost:8000/";
+        const url = "http://localhost:8000/albums";
+
+        let parameters = "?page=" + page + "&limit=" + limit
+
+        if (genre !== undefined) {
+            parameters += "&genre=" + genre;
+        }
+
+        console.log(parameters);
+
         fetch(
-            url + "albums?page=" + page + "&limit=" + limit + "&genre=" + genre,
+            url + parameters,
             {
                 method: 'GET',
                 mode: 'cors',
@@ -71,7 +80,7 @@ export default function Albums(props) {
                         justify='space-evenly'
                         alignItems='center'
                         className='album-container'>
-                        {genre !== '' ? (
+                        {genre !== undefined ? (
                             <Grid item xs={12} id='genre-name'>
                                 <h1 className='title'>Genre: {genre}</h1>
                             </Grid>
@@ -110,7 +119,7 @@ export default function Albums(props) {
                                 <Refresh />
                             </Alert>
                         ) : null}
-                        {genre !== '' ? (
+                        {genre !== undefined ? (
                             <Grid item xs={12} id='genre-name'>
                                 <h1 className='title'>Genre: {genre}</h1>
                             </Grid>
