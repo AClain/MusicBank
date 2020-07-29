@@ -86,7 +86,7 @@ export default function Genres() {
                             </Link>
                         </p>
                     </Grid>
-                    <Grid xs={12} className='paginate-container'>
+                    <Grid item xs={12} className='paginate-container'>
                         {paginate(url, page, max)}
                     </Grid>
                 </Grid>

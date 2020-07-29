@@ -95,15 +95,6 @@ export default function AlbumForm() {
                     return false;
                 }
                 setSuccess(res.message);
-                setTimeout(() => {
-                    if (typeof document.getElementById('alert-success') !== null) {
-                        document.getElementById('alert-success').classList.remove('fadeInTop');
-                        document.getElementById('alert-success').classList.add('fadeOutTop');
-                    }
-                }, 3500)
-                setTimeout(() => {
-                    setSuccess('');
-                }, 4500)
                 return true;
             }, (err) => {
                 console.log(err);
