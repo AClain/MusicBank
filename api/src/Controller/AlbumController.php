@@ -7,6 +7,9 @@ use App\Entity\Artist;
 use App\Entity\GenreAlbum;
 use App\Entity\Genre;
 use App\Entity\Track;
+use App\Repository\AlbumRepository;
+use App\Repository\GenreAlbumRepository;
+use App\Repository\GenreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -144,14 +147,29 @@ class AlbumController extends AbstractController
      * @Route("/albums", name="album_list")
      * GET / Get all album
      */
-    public function albumList()
-    {
-        $limit = isset($_GET['limit']) ? $_GET['limit'] : 25;
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    public function albumList(
+        Request $request,
+        AlbumRepository $albumRepository,
+        GenreRepository $genreRepository,
+        GenreAlbumRepository $genreAlbumRepository
+    ) {
+        $query = $request->query;
+
+        $limit = null !== $query->get('limit') ? $query->get('limit') : 25;
+        $page = null !== $query->get('page') ? $query->get('page') : 1;
+        $genreName = null !== $query->get('genre') ? $query->get('genre') : '';
         $offset = $page > 1 ? (($page - 1) * $limit) : null;
 
-        $em = $this->getDoctrine()->getRepository(Album::class);
-        $albums = $em->findBy([], null, $limit, $offset);
+        if ($genreName !== '') {
+            $genre = $genreRepository->findOneBy(['name' => $genreName]);
+            $albumsByGenre = $genreAlbumRepository->findBy(['genre' => $genre], null, $limit, $offset);
+            $albums = [];
+            foreach ($albumsByGenre as $entity) {
+                $albums[] = $entity->getAlbum();
+            }
+        } else {
+            $albums = $albumRepository->findBy([], null, $limit, $offset);
+        }
 
         $albumsArray = [];
 
@@ -168,7 +186,7 @@ class AlbumController extends AbstractController
             $albumsArray[$i]['genres'] = $album_genres;
         }
 
-        $allAlbum = $em->findAll();
+        $allAlbum = $albumRepository->findAll();
 
         $max = ceil(sizeof($allAlbum) / $limit);
         if ((int)$max === $limit) {
