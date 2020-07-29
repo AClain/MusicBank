@@ -27,3 +27,8 @@
   font-family: "RobotoBlack";
   src: url("../fonts/Roboto/Roboto-Black.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "RobotoMono";
+  src: url("../fonts/Roboto/Roboto-Mono.ttf") format("truetype");
+}
