@@ -21,6 +21,8 @@ import GenreForm from './group/genre/GenreForm';
 
 import TrackForm from './group/track/TrackForm';
 
+import NotFound from './assets/NotFound';
+
 export default function Router() {
 
     return (
@@ -44,6 +46,8 @@ export default function Router() {
                 <Route path='/genre/add' component={GenreForm} exact />
 
                 <Route path='/track/add/:id' component={TrackForm} exact />
+
+                <Route component={NotFound} />
             </Switch>
         </ReactRouter>
     );

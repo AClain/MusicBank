@@ -41,8 +41,6 @@ export default function Albums(props) {
             parameters += "&genre=" + genre;
         }
 
-        console.log(parameters);
-
         fetch(
             url + parameters,
             {
@@ -59,12 +57,14 @@ export default function Albums(props) {
                 setTimeout(() => {
                     setLoading(false);
                 }, 500);
+                return true;
             }, (err) => {
                 console.log(err);
                 setError('Error: can\'t connect to the server.');
                 setTimeout(() => {
                     setLoading(false);
                 }, 500);
+                return false;
             });
         return () => { };
     }, [limit, page]);
