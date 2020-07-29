@@ -7,9 +7,6 @@ use App\Entity\Artist;
 use App\Entity\GenreAlbum;
 use App\Entity\Genre;
 use App\Entity\Track;
-use App\Repository\AlbumRepository;
-use App\Repository\GenreAlbumRepository;
-use App\Repository\GenreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,8 +23,8 @@ class AlbumController extends AbstractController
         $post = json_decode($request->getContent(), true);
 
         $artist = isset($post['artist']) ? $post['artist'] : '';
-        $em = $this->getDoctrine()->getRepository(Artist::class);
-        $artist = $em->findBy(['name' => $artist]);
+        $artistRepository = $this->getDoctrine()->getRepository(Artist::class);
+        $artist = $artistRepository->findBy(['name' => $artist]);
 
         $name = isset($post['name']) ? $post['name'] : '';
         $description = isset($post['description']) ? $post['description'] : '';
@@ -65,13 +62,13 @@ class AlbumController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         if (!empty($genre_list)) {
-            $genreEm = $this->getDoctrine()->getRepository(Genre::class);
+            $genreRepository = $this->getDoctrine()->getRepository(Genre::class);
             $errors = [];
             foreach ($genre_list as $genre_name) {
                 if ($genre_list[0] === $genre_list[1]) {
                     continue;
                 }
-                $genre = $genreEm->findOneBy(['name' => $genre_name]);
+                $genre = $genreRepository->findOneBy(['name' => $genre_name]);
                 if ($genre) {
                     $genre_album = new GenreAlbum();
                     $genre_album->setAlbum($album);
@@ -147,13 +144,13 @@ class AlbumController extends AbstractController
      * @Route("/albums", name="album_list")
      * GET / Get all album
      */
-    public function albumList(
-        Request $request,
-        AlbumRepository $albumRepository,
-        GenreRepository $genreRepository,
-        GenreAlbumRepository $genreAlbumRepository
-    ) {
+    public function albumList(Request $request)
+    {
         $query = $request->query;
+
+        $genreRepository = $this->getDoctrine()->getRepository(Genre::class);
+        $genreAlbumRepository = $this->getDoctrine()->getRepository(GenreAlbum::class);
+        $albumRepository = $this->getDoctrine()->getRepository(Album::class);
 
         $limit = null !== $query->get('limit') ? $query->get('limit') : 25;
         $page = null !== $query->get('page') ? $query->get('page') : 1;
@@ -202,12 +199,12 @@ class AlbumController extends AbstractController
 
     public function getAlbumGenres($id)
     {
-        $em = $this->getDoctrine()->getRepository(Album::class);
-        $album = $em->find(['id' => $id]);
+        $albumRepository = $this->getDoctrine()->getRepository(Album::class);
+        $album = $albumRepository->find(['id' => $id]);
 
         if ($album) {
-            $genreEm = $this->getDoctrine()->getRepository(GenreAlbum::class);
-            $genres = $genreEm->findBy(['album' => $album]);
+            $genreRepository = $this->getDoctrine()->getRepository(GenreAlbum::class);
+            $genres = $genreRepository->findBy(['album' => $album]);
             $genre_list = [];
             foreach ($genres as $genre) {
                 $genre_list[] = $genre->getGenre()->getName();
@@ -220,12 +217,12 @@ class AlbumController extends AbstractController
 
     private function getAlbumTracks($id)
     {
-        $em = $this->getDoctrine()->getRepository(Album::class);
-        $album = $em->find(['id' => $id]);
+        $albumRepository = $this->getDoctrine()->getRepository(Album::class);
+        $album = $albumRepository->find(['id' => $id]);
 
         if ($album) {
-            $trackEm = $this->getDoctrine()->getRepository(Track::class);
-            $tracks = $trackEm->findBy(['album' => $album], ['track_no' => 'ASC']);
+            $trackRepository = $this->getDoctrine()->getRepository(Track::class);
+            $tracks = $trackRepository->findBy(['album' => $album], ['track_no' => 'ASC']);
             $track_list = [];
             foreach ($tracks as $track) {
                 $track_list[] = [
@@ -245,12 +242,12 @@ class AlbumController extends AbstractController
      */
     public function albumGenres($id)
     {
-        $em = $this->getDoctrine()->getRepository(Album::class);
-        $album = $em->find(['id' => $id]);
+        $albumRepository = $this->getDoctrine()->getRepository(Album::class);
+        $album = $albumRepository->find(['id' => $id]);
 
         if ($album) {
-            $genreEm = $this->getDoctrine()->getRepository(GenreAlbum::class);
-            $genres = $genreEm->findBy(['album' => $album]);
+            $genreRepository = $this->getDoctrine()->getRepository(GenreAlbum::class);
+            $genres = $genreRepository->findBy(['album' => $album]);
             $genre_list = [];
             foreach ($genres as $genre) {
                 $genre_list[] = $genre->getGenre()->getName();

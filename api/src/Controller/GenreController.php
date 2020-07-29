@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Genre;
-use App\Entity\GenreAlbum;
-use App\Repository\AlbumRepository;
-use App\Repository\GenreAlbumRepository;
 use App\Repository\GenreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +19,7 @@ class GenreController extends AbstractController
     {
         $post = json_decode($request->getContent(), true);
 
-        $name = isset($_POST['name']) ? $_POST['name'] : isset($post['name']) ? $post['name'] : '';
+        $name = isset($post['name']) ? $post['name'] : isset($post['name']) ? $post['name'] : '';
 
         $genre = new Genre();
         $genre->setName($name);
@@ -82,14 +79,16 @@ class GenreController extends AbstractController
      * @Route("/genres", name="genre_list")
      * GET / Get all genre
      */
-    public function genreList()
+    public function genreList(Request $request)
     {
-        $limit = isset($_GET['limit']) ? $_GET['limit'] : 25;
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $query = $request->query;
+
+        $limit = null !== $query->get('limit') ? $query->get('limit') : 25;
+        $page = null !== $query->get('page') ? $query->get('page') : 1;
         $offset = $page > 1 ? (($page - 1) * $limit) : null;
 
-        $em = $this->getDoctrine()->getRepository(Genre::class);
-        $genres = $em->findBy([], ['name' => 'ASC'], $limit, $offset);
+        $genreRepository = $this->getDoctrine()->getRepository(Genre::class);
+        $genres = $genreRepository->findBy([], ['name' => 'ASC'], $limit, $offset);
         $genresArray = [];
 
         for ($i = 0; $i < sizeof($genres); $i++) {
@@ -111,7 +110,7 @@ class GenreController extends AbstractController
      * @Route("/genre/search/{search}", name="genre_search")
      * GET / Get genre with name containing {search}
      */
-    public function genreSearch($search, GenreRepository $genreRepository)
+    public function genreSearch($search, GenreRepository $genreRepository = null)
     {
         $genres = $genreRepository->findBySearch($search);
 

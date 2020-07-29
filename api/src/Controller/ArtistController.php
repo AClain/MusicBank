@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Artist;
-use App\Repository\AlbumRepository;
 use App\Repository\ArtistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,11 +60,13 @@ class ArtistController extends AbstractController
      * @Route("/artist/name/{name}", name="artist_name")
      * GET / Get an artist by name
      */
-    public function artistName($name, AlbumRepository $albumRepository)
+    public function artistName($name)
     {
         $artist = $this->getDoctrine()
             ->getRepository(Artist::class)
             ->findOneBy(['name' => $name]);
+
+        $albumRepository = $this->getDoctrine()->getRepository(Album::class);
 
         $albums = $albumRepository->findBy(['artist' => $artist]);
 
@@ -104,14 +105,16 @@ class ArtistController extends AbstractController
      * @Route("/artists", name="artist_list")
      * GET / Get all artist
      */
-    public function artistList()
+    public function artistList(Request $request)
     {
-        $limit = isset($_GET['limit']) ? $_GET['limit'] : 25;
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $query = $request->query;
+
+        $limit = null !== $query->get('limit') ? $query->get('limit') : 25;
+        $page = null !== $query->get('page') ? $query->get('page') : 1;
         $offset = $page > 1 ? (($page - 1) * $limit) : null;
 
-        $em = $this->getDoctrine()->getRepository(Artist::class);
-        $artists = $em->findBy([], null, $limit, $offset);
+        $artistRepository = $this->getDoctrine()->getRepository(Artist::class);
+        $artists = $artistRepository->findBy([], null, $limit, $offset);
 
         $artistsArray = [];
 
@@ -137,7 +140,7 @@ class ArtistController extends AbstractController
      * @Route("/artist/search/{search}", name="artist_search")
      * GET / Get artist with name containing {search}
      */
-    public function artistSearch($search, ArtistRepository $artistRepository)
+    public function artistSearch($search, ArtistRepository $artistRepository = null)
     {
         $artists = $artistRepository->findBySearch($search);
 
