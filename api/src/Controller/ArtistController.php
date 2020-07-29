@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Artist;
+use App\Entity\Album;
 use App\Repository\ArtistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
